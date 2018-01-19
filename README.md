@@ -15,7 +15,7 @@
 # Example
 
 ```js
-import ParallaxScrollView from 'react-native-stickyheader';
+import App from 'react-native-stickyheader';
 
 render() {
   return (
