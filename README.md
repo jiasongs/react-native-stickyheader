@@ -15,7 +15,7 @@
 # Example
 
 ```js
-import App from 'react-native-stickyheader';
+import StickyHeader from 'react-native-stickyheader';
 
 render() {
   return (
