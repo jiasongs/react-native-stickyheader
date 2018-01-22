@@ -8,15 +8,50 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  FlatList,
+  Dimensions
 } from 'react-native';
-import StickyHeader from '../lib/StickyHeader';
+
+import StickyRendererComponent from './src/StickyRendererComponent'
 
 export default class App extends Component {
+
+  _renderItem(info) {
+    if (info.index == 3) {
+      return <View
+        style={{ height: 50, backgroundColor: '#2578b5' }}>
+        <Text>{info.item}</Text>
+      </View>
+    }
+    return (
+      <View
+        style={{ height: 50, backgroundColor: '#ffffff' }}>
+        <Text>{info.item}</Text>
+      </View>
+    )
+  }
+  componentDidMount() {
+    StickyRendererComponent.cellStickyRendererRef = this._flatList
+    StickyRendererComponent.cellStickyRendererKey = 3
+  }
   render() {
+    let data = []
+    for (let index = 0; index < 100; index++) {
+      data.push(index)
+    }
     return (
       <View style={styles.container}>
-
+        <View style={{ height: 64, backgroundColor: '#973444' }}></View>
+        <FlatList
+          ref={flatList => this._flatList = flatList}
+          CellRendererComponent={StickyRendererComponent}
+          collapsable={false}
+          scrollEventThrottle={1}
+          data={data}
+          keyExtractor={(item, index) => item}
+          renderItem={this._renderItem.bind(this)}
+        />
       </View>
     );
   }
@@ -25,8 +60,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
 });

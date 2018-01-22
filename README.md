@@ -15,15 +15,59 @@
 # Example
 
 ```js
-import ParallaxScrollView from 'react-native-stickyheader';
+import StickyRendererComponent from './src/StickyRendererComponent'
 
-render() {
-  return (
-   
-  );
+export default class App extends Component {
+
+  _renderItem(info) {
+    if (info.index == 3) {
+      return <View
+        style={{ height: 50, backgroundColor: '#2578b5' }}>
+        <Text>{info.item}</Text>
+      </View>
+    }
+    return (
+      <View
+        style={{ height: 50, backgroundColor: '#ffffff' }}>
+        <Text>{info.item}</Text>
+      </View>
+    )
+  }
+  componentDidMount() {
+    StickyRendererComponent.cellStickyRendererRef = this._flatList
+    StickyRendererComponent.cellStickyRendererKey = 3
+  }
+  render() {
+    let data = []
+    for (let index = 0; index < 100; index++) {
+      data.push(index)
+    }
+    return (
+      <View style={styles.container}>
+        <View style={{ height: 64, backgroundColor: '#973444' }}></View>
+        <FlatList
+          ref={flatList => this._flatList = flatList}
+          CellRendererComponent={StickyRendererComponent}
+          collapsable={false}
+          scrollEventThrottle={1}
+          data={data}
+          keyExtractor={(item, index) => item}
+          renderItem={this._renderItem.bind(this)}
+        />
+      </View>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+  },
+});
 ```
-**Note:** `scrollEventThrottle={1}`此属性必须设置且为1,因为要保证有足够的偏移量回调。
+**Note:** `scrollEventThrottle={1}`此属性必须设置且为1,因为要保证有足够的偏移量回调。关于`cellStickyRendererKey`值的设定，获得你想要悬浮的cell的key值，赋值给此属性
 
 
 # react-native-stickyheader 的原理
@@ -44,11 +88,14 @@ $ npm install react-native-stickyheader --save
 
 | Property | Type | Required | Description |
 | -------- | ---- | -------- | ----------- |
-| `style` | `object` | No | 组件的样式，默认为空 |
-| `stickyHeaderParent` | `object` | Yes | FlatList等组件的ref |
-| `stickyHeaderY` | `number` | NO | header悬浮的位置，只支持竖直效果，默认为`0`，`如果为ScrollView组件请设置为-1` |
+| `cellStickyRendererRef` | `object` | Yes | FlatList等组件的ref  |
+| `cellStickyRendererKey` | `string or int` | Yes | 悬浮cell的key值 |
 
 ## 更新
+
+### 1.0.3
+
+- bug修改
 
 ### 1.0.0
 
