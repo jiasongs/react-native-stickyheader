@@ -10,7 +10,7 @@
 
 | iOS | Android |
 | --- | ------- |
-| ![](./example/QQ20180122-113919-HD) | 暂无 |
+| ![](./example/QQ20180122-113919-HD.gif) | 暂无 |
 
 # Example
 
