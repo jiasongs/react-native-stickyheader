@@ -21,7 +21,7 @@ class StickyRendererComponent extends Component {
     const { cellKey } = this.props;
     let obj = {}
     if (cellKey === cellStickyRendererKey) {
-      obj = { zIndex: 20 }
+      obj = { zIndex: 50 }
     }
     return (
       <View
