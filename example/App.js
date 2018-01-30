@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import StickyRendererComponent from './src/StickyRendererComponent'
-
+import StickyHeader from './src/StickyHeader'
 export default class App extends Component {
 
   _renderItem(info) {
@@ -32,8 +32,8 @@ export default class App extends Component {
     )
   }
   componentDidMount() {
-    StickyRendererComponent.cellStickyRendererRef = this._flatList
-    StickyRendererComponent.cellStickyRendererKey = 3
+    // StickyRendererComponent.cellStickyRendererRef = this._flatList
+    // StickyRendererComponent.cellStickyRendererKey = 3
   }
   render() {
     let data = []
@@ -45,6 +45,15 @@ export default class App extends Component {
         <View style={{ height: 64, backgroundColor: '#973444' }}></View>
         <FlatList
           ref={flatList => this._flatList = flatList}
+          ListHeaderComponent={() => <StickyHeader
+            style={{
+              backgroundColor: 'blue'
+            }}
+            stickyHeaderParent={this._flatList}
+            stickyHeaderY={0}
+          >
+            <View style={{ height: 200, backgroundColor: 'red' }}></View>
+          </StickyHeader>}
           CellRendererComponent={StickyRendererComponent}
           collapsable={false}
           scrollEventThrottle={1}

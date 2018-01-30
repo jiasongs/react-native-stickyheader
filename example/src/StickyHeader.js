@@ -85,6 +85,7 @@ export default class StickyHeader extends Component {
 // define your styles
 const styles = StyleSheet.create({
   container: {
+    zIndex: 20
   },
 });
 
