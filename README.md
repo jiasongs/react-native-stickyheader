@@ -10,7 +10,7 @@
 
 | iOS | Android |
 | --- | ------- |
-| ![](./example/demo_ios.gif) | ./example/demo_android.gif |
+| ![](./example/demo_ios.gif) | ![](./example/demo_android.gif) |
 
 # Example
 
