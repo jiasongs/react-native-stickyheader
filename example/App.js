@@ -14,8 +14,8 @@ import {
   SectionList,
 } from 'react-native';
 
-import StickyRendererComponent from './src/StickyRendererComponent'
-import StickyHeader from './src/StickyHeader'
+import StickyRendererComponent from 'react-native-stickyheader'
+
 export default class App extends Component {
   constructor(props) {
     super(props);
