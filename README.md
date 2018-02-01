@@ -25,8 +25,8 @@ import {
   SectionList,
 } from 'react-native';
 
-import StickyRendererComponent from './src/StickyRendererComponent'
-import StickyHeader from './src/StickyHeader'
+import StickyRendererComponent from 'react-native-stickyheader'
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
 ```
 **Note:** `scrollEventThrottle={1}`此属性必须设置且为1,因为要保证有足够的偏移量回调。关于`cellStickyRendererKey`值的设定，获得你想要悬浮的cell的key值，赋值给此属性。请注意`SectionList`的key值是sections里的`key:你返回的key`。比如说`sections`为`[key:'123',data:['1','2']]`,`keyExtractor`属性，你返回的key为`index`，那么他的cellKey就为`'123':'1'`,`'123':'2'`...
 
