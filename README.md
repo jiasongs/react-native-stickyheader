@@ -15,9 +15,23 @@
 # Example
 
 ```js
-import StickyRendererComponent from './src/StickyRendererComponent'
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Dimensions,
+  SectionList,
+} from 'react-native';
 
+import StickyRendererComponent from './src/StickyRendererComponent'
+import StickyHeader from './src/StickyHeader'
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+  }
 
   _renderItem(info) {
     if (info.index == 3) {
@@ -37,6 +51,9 @@ export default class App extends Component {
     StickyRendererComponent.cellStickyRendererRef = this._flatList
     StickyRendererComponent.cellStickyRendererKey = 3
   }
+  _keyExtractor = (item, index) => {
+    return index
+  }
   render() {
     let data = []
     for (let index = 0; index < 100; index++) {
@@ -48,10 +65,9 @@ export default class App extends Component {
         <FlatList
           ref={flatList => this._flatList = flatList}
           CellRendererComponent={StickyRendererComponent}
-          collapsable={false}
           scrollEventThrottle={1}
           data={data}
-          keyExtractor={(item, index) => item}
+          keyExtractor={this._keyExtractor}
           renderItem={this._renderItem.bind(this)}
         />
       </View>
