@@ -10,7 +10,7 @@
 
 | iOS | Android |
 | --- | ------- |
-| ![](./example/QQ20180122-113919-HD.gif) | 暂无 |
+| ![](./example/demo_ios.gif) | ./example/demo_android.gif |
 
 # Example
 
@@ -67,12 +67,12 @@ const styles = StyleSheet.create({
   },
 });
 ```
-**Note:** `scrollEventThrottle={1}`此属性必须设置且为1,因为要保证有足够的偏移量回调。关于`cellStickyRendererKey`值的设定，获得你想要悬浮的cell的key值，赋值给此属性
+**Note:** `scrollEventThrottle={1}`此属性必须设置且为1,因为要保证有足够的偏移量回调。关于`cellStickyRendererKey`值的设定，获得你想要悬浮的cell的key值，赋值给此属性。请注意`SectionList`的key值是sections里的`key:你返回的key`。比如说`sections`为`[key:'123',data:['1','2']]`,`keyExtractor`属性，你返回的key为`index`，那么他的cellKey就为`'123':'1'`,`'123':'2'`...
 
 
 # react-native-stickyheader 的原理
 
-
+待整理
 
 
 ## Installation
@@ -92,6 +92,9 @@ $ npm install react-native-stickyheader --save
 | `cellStickyRendererKey` | `string or int` | Yes | 悬浮cell的key值 |
 
 ## 更新
+### 1.1.0
+
+- 支持安卓 
 
 ### 1.0.3
 

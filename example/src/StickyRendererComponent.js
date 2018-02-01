@@ -9,7 +9,7 @@ class StickyRendererComponent extends Component {
     super(props);
     this.state = { layoutY: 0 }
   }
-  _onLayout(event) {
+  _onLayout = (event) => {
     const { cellStickyRendererKey } = this.props.CellRendererComponent
     const { cellKey } = this.props;
     if (cellKey === cellStickyRendererKey) {
@@ -19,29 +19,22 @@ class StickyRendererComponent extends Component {
   render() {
     const { cellStickyRendererKey, cellStickyRendererRef } = this.props.CellRendererComponent
     const { cellKey } = this.props;
-    let obj = {}
-    if (cellKey === cellStickyRendererKey) {
-      obj = { zIndex: 50 }
-    }
-    return (
+    let view = (cellKey === cellStickyRendererKey) ?
+      <StickyHeader
+        style={{
+          zIndex: 49,
+        }}
+        stickyHeaderParent={cellStickyRendererRef}
+        stickyHeaderY={this.state.layoutY} >
+        {this.props.children}
+      </StickyHeader> :
       <View
-        onLayout={this._onLayout.bind(this)}
-        style={[styles.container, obj]}>
-        {
-          cellKey === cellStickyRendererKey ? (
-            <StickyHeader
-              style={{
-                backgroundColor: 'blue'
-              }}
-              stickyHeaderParent={cellStickyRendererRef}
-              stickyHeaderY={this.state.layoutY}
-            >
-              {this.props.children}
-            </StickyHeader>)
-            :
-            this.props.children
-        }
+        onLayout={this._onLayout}
+        style={styles.container} >
+        {this.props.children}
       </View>
+    return (
+      view
     );
   }
 }

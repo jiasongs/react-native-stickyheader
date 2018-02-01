@@ -10,12 +10,17 @@ import {
   Text,
   View,
   FlatList,
-  Dimensions
+  Dimensions,
+  SectionList,
 } from 'react-native';
 
 import StickyRendererComponent from './src/StickyRendererComponent'
 import StickyHeader from './src/StickyHeader'
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+  }
 
   _renderItem(info) {
     if (info.index == 3) {
@@ -32,8 +37,11 @@ export default class App extends Component {
     )
   }
   componentDidMount() {
-    // StickyRendererComponent.cellStickyRendererRef = this._flatList
-    // StickyRendererComponent.cellStickyRendererKey = 3
+    StickyRendererComponent.cellStickyRendererRef = this._flatList
+    StickyRendererComponent.cellStickyRendererKey = 3
+  }
+  _keyExtractor = (item, index) => {
+    return index
   }
   render() {
     let data = []
@@ -45,20 +53,10 @@ export default class App extends Component {
         <View style={{ height: 64, backgroundColor: '#973444' }}></View>
         <FlatList
           ref={flatList => this._flatList = flatList}
-          ListHeaderComponent={() => <StickyHeader
-            style={{
-              backgroundColor: 'blue'
-            }}
-            stickyHeaderParent={this._flatList}
-            stickyHeaderY={0}
-          >
-            <View style={{ height: 200, backgroundColor: 'red' }}></View>
-          </StickyHeader>}
           CellRendererComponent={StickyRendererComponent}
-          collapsable={false}
           scrollEventThrottle={1}
           data={data}
-          keyExtractor={(item, index) => item}
+          keyExtractor={this._keyExtractor}
           renderItem={this._renderItem.bind(this)}
         />
       </View>
