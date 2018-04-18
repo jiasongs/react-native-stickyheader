@@ -15,6 +15,12 @@
 # Example
 
 ```js
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -23,23 +29,25 @@ import {
   FlatList,
   Dimensions,
   SectionList,
+  Animated,
+  ScrollView
 } from 'react-native';
 
-import StickyRendererComponent from 'react-native-stickyheader'
+
+import StickyHeader from 'react-native-stickyheader';
+
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-
+    this.state = { scrollY: new Animated.Value(0) }
+    this.data = []
+    for (let index = 0; index < 100; index++) {
+      this.data.push(index)
+    }
   }
 
-  _renderItem(info) {
-    if (info.index == 3) {
-      return <View
-        style={{ height: 50, backgroundColor: '#2578b5' }}>
-        <Text>{info.item}</Text>
-      </View>
-    }
+  _renderItem = (info) => {
     return (
       <View
         style={{ height: 50, backgroundColor: '#ffffff' }}>
@@ -47,29 +55,38 @@ export default class App extends Component {
       </View>
     )
   }
-  componentDidMount() {
-    StickyRendererComponent.cellStickyRendererRef = this._flatList
-    StickyRendererComponent.cellStickyRendererKey = 3
-  }
   _keyExtractor = (item, index) => {
     return index
   }
+
   render() {
-    let data = []
-    for (let index = 0; index < 100; index++) {
-      data.push(index)
-    }
+
     return (
       <View style={styles.container}>
         <View style={{ height: 64, backgroundColor: '#973444' }}></View>
-        <FlatList
-          ref={flatList => this._flatList = flatList}
-          CellRendererComponent={StickyRendererComponent}
+        <Animated.ScrollView
+          onScroll={Animated.event([{
+            nativeEvent: { contentOffset: { y: this.state.scrollY, } }
+          }], { useNativeDriver: true })}
           scrollEventThrottle={1}
-          data={data}
-          keyExtractor={this._keyExtractor}
-          renderItem={this._renderItem.bind(this)}
-        />
+        >
+          <Text>文字</Text>
+          <Text>文字</Text>
+          <Text>文字</Text>
+          <Text>文字</Text>
+          <StickyHeader
+            stickyHeaderY={60} // 滑动到多少悬浮
+            stickyScrollY={this.state.scrollY}
+          >
+            <View style={{ height: 60, backgroundColor: 'red' }} />
+          </StickyHeader>
+          <FlatList
+            ref={flatList => this._flatList = flatList}
+            data={this.data}
+            keyExtractor={this._keyExtractor}
+            renderItem={this._renderItem}
+          />
+        </Animated.ScrollView>
       </View>
     );
   }
@@ -83,8 +100,10 @@ const styles = StyleSheet.create({
   },
 });
 
+
+
 ```
-**Note:** `scrollEventThrottle={1}`此属性必须设置且为1,因为要保证有足够的偏移量回调。关于`cellStickyRendererKey`值的设定，获得你想要悬浮的cell的key值，赋值给此属性。请注意`SectionList`的key值是sections里的`key:你返回的key`。比如说`sections`为`[key:'123',data:['1','2']]`,`keyExtractor`属性，你返回的key为`index`，那么他的cellKey就为`'123':'1'`,`'123':'2'`...
+**Note:** `scrollEventThrottle={1}`此属性必须设置且为1,因为要保证有足够的偏移量回调。
 
 
 # react-native-stickyheader 的原理
@@ -105,8 +124,8 @@ $ npm install react-native-stickyheader --save
 
 | Property | Type | Required | Description |
 | -------- | ---- | -------- | ----------- |
-| `cellStickyRendererRef` | `object` | Yes | FlatList等组件的ref  |
-| `cellStickyRendererKey` | `string or int` | Yes | 悬浮cell的key值 |
+| `stickyHeaderY` | `number` | NO | 滑动到多少悬浮  |
+| `stickyScrollY` | `any` | Yes | 动画的ScrollY回调 |
 
 ## 更新
 ### 1.1.0
@@ -120,6 +139,10 @@ $ npm install react-native-stickyheader --save
 ### 1.0.0
 
 - 吸顶效果
+
+### 1.1.2
+
+- 简化组件
 
 ## Contributing
 

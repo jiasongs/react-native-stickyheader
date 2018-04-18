@@ -12,23 +12,25 @@ import {
   FlatList,
   Dimensions,
   SectionList,
+  Animated,
+  ScrollView
 } from 'react-native';
 
-import StickyRendererComponent from 'react-native-stickyheader'
+
+import StickyHeader from 'react-native-stickyheader';
+
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-
+    this.state = { scrollY: new Animated.Value(0) }
+    this.data = []
+    for (let index = 0; index < 100; index++) {
+      this.data.push(index)
+    }
   }
 
-  _renderItem(info) {
-    if (info.index == 3) {
-      return <View
-        style={{ height: 50, backgroundColor: '#2578b5' }}>
-        <Text>{info.item}</Text>
-      </View>
-    }
+  _renderItem = (info) => {
     return (
       <View
         style={{ height: 50, backgroundColor: '#ffffff' }}>
@@ -36,29 +38,38 @@ export default class App extends Component {
       </View>
     )
   }
-  componentDidMount() {
-    StickyRendererComponent.cellStickyRendererRef = this._flatList
-    StickyRendererComponent.cellStickyRendererKey = 3
-  }
   _keyExtractor = (item, index) => {
     return index
   }
+
   render() {
-    let data = []
-    for (let index = 0; index < 100; index++) {
-      data.push(index)
-    }
+
     return (
       <View style={styles.container}>
         <View style={{ height: 64, backgroundColor: '#973444' }}></View>
-        <FlatList
-          ref={flatList => this._flatList = flatList}
-          CellRendererComponent={StickyRendererComponent}
+        <Animated.ScrollView
+          onScroll={Animated.event([{
+            nativeEvent: { contentOffset: { y: this.state.scrollY, } }
+          }], { useNativeDriver: true })}
           scrollEventThrottle={1}
-          data={data}
-          keyExtractor={this._keyExtractor}
-          renderItem={this._renderItem.bind(this)}
-        />
+        >
+          <Text>文字</Text>
+          <Text>文字</Text>
+          <Text>文字</Text>
+          <Text>文字</Text>
+          <StickyHeader
+            stickyHeaderY={60} // 滑动到多少悬浮
+            stickyScrollY={this.state.scrollY}
+          >
+            <View style={{ height: 60, backgroundColor: 'red' }} />
+          </StickyHeader>
+          <FlatList
+            ref={flatList => this._flatList = flatList}
+            data={this.data}
+            keyExtractor={this._keyExtractor}
+            renderItem={this._renderItem}
+          />
+        </Animated.ScrollView>
       </View>
     );
   }

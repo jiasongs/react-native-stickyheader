@@ -1,3 +1,3 @@
-import StickyRendererComponent from './lib/StickyRendererComponent';
+import StickyHeader from './lib/StickyHeader';
 
-export default StickyRendererComponent
+export default StickyHeader
